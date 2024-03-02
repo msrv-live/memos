@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Note Book </title>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+</head>
+<body>
+    <div class="app">
+        <div class="frame">
+            <div class="top ">
+                <div class="headding"> <h2> Pocket Note</h2> </div>
+                <div class="topOptions"> 
+                    <span>
+                        <ion-icon size="large" name="checkbox-outline" role="img" class="md icon-large hydrated"></ion-icon>
+                    </span>
+                    <span>
+                        <ion-icon size="large" name="search-outline" role="img" class="md icon-large hydrated"></ion-icon> 
+                    </span>
+                    <span>
+                        <ion-icon size="large" name="settings-outline" role="img" class="md icon-large hydrated"></ion-icon>
+                    </span>
+                </div>
+            </div>
+            <div class="content">
+                
+            </div>
+            <div class="bottom">
+                <div class="home"> 
+                    <span class="home_module" onclick="HomeContent()"> 
+                        <ion-icon size="large" name="home-outline" role="img" class="md icon-large hydrated"></ion-icon> 
+                        <span> Home</span>
+                    </span>
+                </div>
+                <div class="folders" >
+                    <span class="folder_module" onclick="folderContent()">  
+                        <ion-icon size="large" name="folder-open-outline" role="img" class="md icon-large hydrated"></ion-icon>    
+                        <span> Folders </span>
+                    </span>
+                </div>
+                <div class="addButton"> 
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill="currentColor" d="M11 9V5H9v4H5v2h4v4h2v-4h4V9zm-1 11a10 10 0 1 1 0-20a10 10 0 0 1 0 20"></path>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let home_module = document.querySelector(".home_module") ;
+        let folder_module = document.querySelector(".folder_module") ;
+
+        function HomeContent() {
+            home_module.classList.add("hoverColor") ;
+            folder_module.classList.remove("hoverColor") ;
+        }
+        function folderContent() {
+            home_module.classList.remove("hoverColor") ;
+            folder_module.classList.add("hoverColor") ;
+        }
+        HomeContent() ;
+
+        const addButton = document.querySelector(".addButton") ;
+        addButton.addEventListener("click",()=>{
+            let a = document.createElement("a") ;
+            a.href = "./paper.html" ;
+            a.click() ;
+            console.log("add button clicked ...");
+        })
+    </script>
+    <script id="icon-script" nomodule="" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script id="icon-modul-script" type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+</body>
+</html>

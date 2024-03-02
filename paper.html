@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>paperPage</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+</head>
+<body>
+    <div class="app">
+        <div class="paper">
+            <div class="paperTop ">
+                <div class="paperTopRowOne " style="user-select: none;">
+                    <div class="paperTopLet">
+                        <span class="BackPage"> <ion-icon size="large" name="chevron-back-outline"></ion-icon>   </span>
+                    </div>
+                    <div class="paperTopRight">
+                        <spaan class="backwordAction" onclick="undo()">  <ion-icon size="large" name="arrow-undo-outline"></ion-icon> </spaan>
+                        <span class="forwordAction" onclick="redo()">    <ion-icon size="large" name="arrow-redo-outline"></ion-icon> </span>
+                        <span class="finishClick">  <ion-icon size="large" name="checkmark-outline"></ion-icon>  </span>
+                        <span class="pinPage">  <ion-icon size="large" name="bookmark-outline"></ion-icon>   </span>
+                    </div>
+                </div>
+                <div class="paperTitle">
+                    <div class="paperTitleName">
+                        <h2 class="paperTitleName" contenteditable="true" style="outline: none; min-width: 50px;">  Title </h2>
+                    </div>
+                    <div class="paperTimeStamp">
+                        <span>  
+                            <span class="creationDateTime"> </span> |
+                            <span class="totalLengthofPaper"> </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="paperResult content" contenteditable="true" >
+                sample text for testing   
+            </div>
+            <div class="paperBottom bottom">
+                <span class="alert">        <ion-icon size="large"  name="alarm-outline"></ion-icon>  </span>
+                <span class="skin">         <ion-icon size="large" name="color-palette-outline"></ion-icon>  </span>
+                <span class="delete">       <ion-icon size="large" name="trash-outline"></ion-icon>  </span>
+                <span class="moveToFolder"> <ion-icon size="large" name="download-outline"></ion-icon    ></span>
+                <span class="lock">         <ion-icon size="large" name="lock-closed-outline"></ion-icon>    </span>
+                <span class="share">        <ion-icon size="large" name="share-social-outline"></ion-icon>   </span>
+            </div>
+        </div> 
+    </div>
+    <script>
+        let creationDateTime = document.querySelector(".creationDateTime") ;
+        creationDateTime.innerText = getFormattedDateTime() ;
+        
+        let pinPage = document.querySelector(".pinPage") ;  pinPage.style.display = "none" ;
+        let backwordAction = document.querySelector(".backwordAction") ; backwordAction.classList.add("light_dark_color");
+        let forwordAction = document.querySelector(".forwordAction") ; forwordAction.classList.add("light_dark_color");
+        let finishClick = document.querySelector(".finishClick") ; finishClick.classList.add("light_dark_color");
+        
+        let paperResult = document.querySelector(".paperResult") ;
+        document.querySelector(".totalLengthofPaper").innerText = elementInnerTextLength(paperResult)
+        moveCaretToEnd(paperResult) ;
+        paperResult.addEventListener("input",()=>{
+            document.querySelector(".totalLengthofPaper").innerText = elementInnerTextLength(paperResult) ;
+            finishClick.classList.remove("light_dark_color")
+            updateStacks() ;
+        })
+        
+        const editableDiv =paperResult ;const undoStack = [];const redoStack = [];
+        function updateStacks() {
+            undoStack.push(editableDiv.innerHTML);
+            redoStack.length = 0; 
+            backwordAction.classList.remove("light_dark_color") ;   
+            pinPage.style.display = "none" ;
+            backwordAction.style.display = "" ; forwordAction.style.display = "" ; finishClick.style.display="" ;
+
+        }
+        function undo() {
+            if (undoStack.length > 1) {
+            const currentState = undoStack.pop();
+            redoStack.push(currentState);
+            editableDiv.innerHTML = undoStack[undoStack.length - 1]; 
+            forwordAction.classList.remove("light_dark_color") ;
+
+            //console.log("undo if l > 1");
+            }
+            if (undoStack.length == 1) {
+                backwordAction.classList.add("light_dark_color");
+                //console.log("undo if l == 1");
+            }
+        
+        }
+        function redo() {
+            if (redoStack.length > 0) {
+            const nextState = redoStack.pop();
+            undoStack.push(nextState);
+            editableDiv.innerHTML = nextState;          
+            backwordAction.classList.remove("light_dark_color") ;
+            // console.log("redo if l > 0");
+            }
+            if (redoStack.length == 0) {
+                forwordAction.classList.add("light_dark_color");
+               // console.log("redo if l == 0");
+            }
+        }
+        
+        finishClick.addEventListener("click",()=>{
+            if (undoStack.length > 1) {
+                pinPage.style.display = "" ;
+                backwordAction.style.display = "none" ; forwordAction.style.display = "none" ; finishClick.style.display="none" ;
+                undoStack.length = 0 ; redoStack.length = 0 ;
+                console.log("save");
+            }
+            
+        })
+
+        document.querySelector(".BackPage").addEventListener("click",()=>{
+           let a = document.createElement("a") ;
+           a.href = "./index.html" ;
+           a.click() ;
+        })
+        
+        
+
+    </script>
+    <script id="icon-script" nomodule="" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script id="icon-modul-script" type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+</body>
+</html>
